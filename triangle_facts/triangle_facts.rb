@@ -1,10 +1,10 @@
 class Triangle
   attr_accessor :side1, :side2, :side3
 
-  SHAPE_DESCRIPTION = {
+  SHAPE_DESC = {
     equilateral: "equilateral!",
     isosceles: "isosceles! Also, that word is hard to type.",
-    scalene: "scalene and mathematically boring."
+    scalene: "scalene and mathematically boring.",
   }
 
   def initialize(side1, side2, side3)
@@ -13,37 +13,33 @@ class Triangle
     @side3 = side3
   end
 
-  def is_equilateral?
+  def equilateral?
     (side1 == side2) && (side2 == side3)
   end
 
-  def is_isosceles?
+  def isosceles?
     [side1, side2, side3].uniq.length == 2
   end
 
-  def is_scalene?
-    true unless is_equilateral? || is_isosceles?
+  def scalene?
+    true unless equilateral? || isosceles?
   end
 
-  def triangle_shape_description
-    if is_equilateral?
-      :equilateral
-    elsif is_isosceles?
-      :isosceles
-    else
-      :scalene
-    end
+  def triangle_shape_desc
+    return :equilateral if equilateral?
+    return :isosceles if isosceles?
+    return :scalene if scalene?
   end
 
   def recite_facts(shape_type)
-    print "This triangle: #{ self.object_id }, is "
-    puts SHAPE_DESCRIPTION[triangle_shape_description]
-    puts "The angles of this triangle are #{ angles_from_sides.join(', ') }"
-    puts "This triangle is also a right triangle!" if angles_from_sides.include? 90
-    puts ""
+    print "This triangle: #{ object_id }, with sides #{ @side1 } #{ @side2 } #{ @side3 }, "
+    print "is #{ SHAPE_DESC[triangle_shape_desc] } "
+    print "The angles are #{ angles_from_sides.join(', ') }. "
+    print "This triangle is also a right triangle!" if angles_from_sides.include? 90
+    puts "\n\n"
   end
 
-  def radians_to_degrees(rads)
+  def rads_to_deg(rads)
     (rads * 180 / Math::PI).round
   end
 
@@ -61,8 +57,11 @@ class Triangle
     angles
   end
 
-  def law_of_cosines(sides)
-    radians_to_degrees(Math.acos((sides[0]**2 + sides[1]**2 - sides[2]**2) / (2.0 * sides[0] * sides[1])))
+  def law_of_cosines(length)
+    # puts "#{length[0]} is not the same as #{@side1}" if (length[0] != @side1)
+    # puts "#{length[1]} is not the same as #{@side2}" if (length[1] != @side2)
+    # puts "#{length[2]} is not the same as #{@side3}" if (length[2] != @side3)
+    rads_to_deg(Math.acos((length[0]**2 + length[1]**2 - length[2]**2) / (2.0 * length[0] * length[1])))
   end
 end
 
@@ -70,8 +69,8 @@ triangles = [[5, 5, 5], [5, 12, 13]]
 
 triangles.each do |sides|
   tri = Triangle.new(*sides)
-  tri.recite_facts(tri.triangle_shape_description)
-  print "Let's change side 1 to 4in ..."
+  tri.recite_facts(tri.triangle_shape_desc)
+  print "Let's change side 1 to 4in.. "
   tri.side1 = 4
-  tri.recite_facts(tri.triangle_shape_description)
+  tri.recite_facts(tri.triangle_shape_desc)
 end
