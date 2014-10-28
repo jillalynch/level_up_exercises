@@ -31,12 +31,12 @@ class Triangle
     return :scalene if scalene?
   end
 
-  def recite_facts(shape_type)
+  def recite_facts()
     print "This triangle: #{ object_id }, with sides #{ @side1 } #{ @side2 } #{ @side3 }, "
     print "is #{ SHAPE_DESC[triangle_shape_desc] } "
     print "The angles are #{ angles_from_sides.join(', ') }. "
     print "This triangle is also a right triangle!" if angles_from_sides.include? 90
-    puts "\n\n"
+    print "\n\n"
   end
 
   def rads_to_deg(rads)
@@ -57,10 +57,8 @@ class Triangle
     angles
   end
 
+  # length[0] != @side1
   def law_of_cosines(length)
-    # puts "#{length[0]} is not the same as #{@side1}" if (length[0] != @side1)
-    # puts "#{length[1]} is not the same as #{@side2}" if (length[1] != @side2)
-    # puts "#{length[2]} is not the same as #{@side3}" if (length[2] != @side3)
     rads_to_deg(Math.acos((length[0]**2 + length[1]**2 - length[2]**2) / (2.0 * length[0] * length[1])))
   end
 end
@@ -69,8 +67,8 @@ triangles = [[5, 5, 5], [5, 12, 13]]
 
 triangles.each do |sides|
   tri = Triangle.new(*sides)
-  tri.recite_facts(tri.triangle_shape_desc)
+  tri.recite_facts
   print "Let's change side 1 to 4in.. "
   tri.side1 = 4
-  tri.recite_facts(tri.triangle_shape_desc)
+  tri.recite_facts
 end
