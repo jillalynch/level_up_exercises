@@ -31,7 +31,7 @@ class Triangle
     return :scalene if scalene?
   end
 
-  def recite_facts()
+  def recite_facts
     print "This triangle: #{ object_id }, with sides #{ @side1 } #{ @side2 } #{ @side3 }, "
     print "is #{ SHAPE_DESC[triangle_shape_desc] } "
     print "The angles are #{ angles_from_sides.join(', ') }. "
