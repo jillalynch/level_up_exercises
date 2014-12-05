@@ -1,10 +1,10 @@
-class NameCollisionError < RuntimeError; end
+class InvalidNameError < RuntimeError; end
 class DuplicateNameError < RuntimeError; end
 
 class Robot
   attr_accessor :name
 
-  @@registry = ["DT447"]
+  @@registry
 
   def initialize(args = {})
     @@registry ||= []
@@ -19,7 +19,7 @@ class Robot
   private
 
   def invalid_format?(name)
-    raise NameCollisionError unless name =~ /[[:alpha:]]{2}[[:digit:]]{3}/
+    raise InvalidNameError unless name =~ /[[:alpha:]]{2}[[:digit:]]{3}/
   end
 
   def registry_duplicate?(name)
