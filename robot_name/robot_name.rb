@@ -4,8 +4,6 @@ class DuplicateNameError < RuntimeError; end
 class Robot
   attr_accessor :name
 
-  @@registry
-
   def initialize(args = {})
     @@registry ||= []
     @name = args[:name_generator]
@@ -26,6 +24,7 @@ class Robot
     raise DuplicateNameError if @@registry.include?(name)
   end
 
+  # 2.times.map {generate_character}.join + 3.times.map{generate_number}.join
   def create_name
     name = ''
     2.times { name << generate_character }
