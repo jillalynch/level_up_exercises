@@ -1,14 +1,31 @@
 require_relative '../experiment.rb'
 
 describe Experiment do
-  let(:experiment) { Experiment.new(results(30, 5, 30, 30)) }
-  let(:tie_experiment) { Experiment.new(results(5, 5, 5, 5)) }
+  let(:experiment) do
+    success_results = {
+      a_conversions: 30,
+      a_rejections:  5,
+      b_conversions: 30,
+      b_rejections:  30,
+    }
+    Experiment.new(results(success_results))
+  end
+
+  let(:tie_experiment) do
+    tie_results = {
+      a_conversions: 5,
+      a_rejections:  5,
+      b_conversions: 5,
+      b_rejections:  5,
+    }
+    Experiment.new(results(tie_results))
+  end
 
   def result(cohort, result)
     { "date" => "2014-03-20", "cohort" => cohort, "result" => result }
   end
 
-  def results(a_conversions, a_rejections, b_conversions, b_rejections)
+  def results(a_conversions:, a_rejections:, b_conversions:, b_rejections:)
     [].tap do |result_set|
       a_conversions.times { result_set << result("A", 1) }
       a_rejections.times  { result_set << result("A", 0) }
@@ -37,9 +54,11 @@ describe Experiment do
   end
 
   describe '#winner' do
-    it "returns the correct winner" do
-      expect(experiment.report).to eq("A")
-      expect(tie_experiment.report).to eq("There is no clear winner!")
+    it "returns winner for a cohort above significant dif" do
+      expect(experiment.winner.name).to eq("A")
+    end
+    it "returns nil if no statistical dif" do
+      expect(tie_experiment.winner).to eq(nil)
     end
   end
 
