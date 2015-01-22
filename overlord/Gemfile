@@ -1,6 +1,17 @@
 # A sample Gemfile
 source "https://rubygems.org"
 
-ruby "2.0.0"
+#ruby "2.0.0"
+# ruby "2.1.2"
 
 gem "sinatra"
+gem "capybara"
+gem "cucumber"
+gem "pry"
+gem "rack-flash3"
+gem "selenium-webdriver"
+gem "haml"
+gem "rspec-core"
+gem "rspec"
+gem "rack"
+gem "capybara-webkit"
