@@ -10,5 +10,3 @@ Feature: arm bomb
   Scenario: arm the bomb
     When I enter the activation code
     Then the bomb is armed
-    And  the timer starts
-    #  expected ["Welcome to Codebreaker!"] to include "Enter guess:"

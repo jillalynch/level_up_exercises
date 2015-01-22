@@ -38,8 +38,6 @@ When(/^I enter the activation code$/) do
 end
 
 
-
-
 Then(/^the bomb should detonate$/) do
   pending
 end
