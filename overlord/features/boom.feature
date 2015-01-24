@@ -8,5 +8,7 @@ Feature: detonate bomb
     Given: the bomb is armed
 
   Scenario: too many incorrect guesses
-    When I enter the wrong code three times
+    When I enter the wrong code
+    And I enter the wrong code
+    And I enter the wrong code
     Then the bomb will detonate

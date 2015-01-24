@@ -5,7 +5,7 @@ Feature: configure codes
   So that it works
 
   Background:
-    Given I visit the site
+    Given the bomb is not already configured
 
   Scenario: sets activation code
     When I set the activation code to "1111"

@@ -39,7 +39,7 @@ find_button('Send').click
 find('//table/tr').click
 locate("//*[@id='overlay'").find("//h1").click
 all('a').each { |a| a[:href] }
-page.has_css?('inactive', :text => 'Status', :class => "black")
+page.has_css?('inactive', :text => 'Status', :class => "visible")
 
 
 =Scripting=
