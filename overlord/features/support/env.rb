@@ -2,6 +2,7 @@ $LOAD_PATH << File.expand_path('../../../lib', __FILE__)
 
 require 'overlord'
 require 'rspec'
+require 'sinatra'
 
 begin require "rspec/expectations"
 rescue LoadError

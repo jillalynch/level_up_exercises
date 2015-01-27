@@ -3,91 +3,80 @@ class Bomb
   DEFAULT_DEACTIVATION_CODE = "0000"
   MAX_DEACTIVATION_ATTEMPTS = 3
 
-  attr_reader :state, :count
+  attr_reader :state, :deactivation_attempts,
+              :activation_code, :deactivation_code
 
-  def initialize
+  def initialize(options = {})
     @state = :disarmed
-    @count = 0
+    @deactivation_attempts = 0
     @deactivation_code = DEFAULT_DEACTIVATION_CODE
     @activation_code = DEFAULT_ACTIVATION_CODE
-  end
-
-  def default_activation_code
-    DEFAULT_ACTIVATION_CODE
-  end
-
-  def default_deactivation_code
-    DEFAULT_DEACTIVATION_CODE
-  end
-
-  def enter_code(code)
-    # return false unless valid_code?(code)
-
-    arm    if disarmed? && @activation_code == code
-    disarm if armed?    && @deactivation_code == code
-    detonate unless count < 2
-    attempt_deactivation if count < 2
-
-
-    if code == DEFAULT_DEACTIVATION_CODE
-      disarm
-    else
-      arm
-    end
-    # elsif code == DEFAULT_ACTIVATION_CODE
-    #   arm
-    # elsif
-    #   if (count > MAX_DEACTIVATION_ATTEMPTS + 1)
-    #     failed disarmaments
-    #   end
-    # else
-    #   detonate
-    # end
-
-
-  end
-
-  def action
-
-  end
-
-  def valid_code?(code)
-
-  end
-
-  def is_number?
-    true if Float(self) rescue false
-  end
-
-  def attempt_deactivation
-    @count += 1
-  end
-  
-  def configured?
-    configured?
   end
 
   def armed?
     @state == :armed
   end
 
-  def arm
-    @state = :armed
-  end
-
   def disarmed?
     @state == :disarmed
   end
 
-  def disarm
-    @state = :disarmed
-  end
-
-  def detonate
-    @state = :detonated
-  end
-
   def detonated?
     @state == :detonated
+  end
+
+  def enter_code(code)
+    if code == activation_code && disarmed?
+      arm!
+    elsif armed?
+      attempt_deactivation(code)
+    end
+  end
+
+  def valid_code?(code)
+    code.numeric? && (code.length == 4)
+  end
+
+  private
+
+  private :activation_code
+  private :deactivation_code
+  private :deactivation_attempts
+
+  def detonate!
+    change_state(:detonated)
+  end
+
+  def disarm!
+    change_state(:disarmed)
+  end
+
+  def arm!
+    change_state(:armed)
+  end
+
+  def attempt_deactivation(code)
+    if deactivation_code == code
+      disarm!
+    else
+      @deactivation_attempts += 1
+      detonate! if @deactivation_attempts >= MAX_DEACTIVATION_ATTEMPTS
+    end
+  end
+
+  def change_state(new_state)
+    allowed_state_changes = {
+        armed: [:detonated, :disarmed],
+        disarmed: [:armed],
+        detonated: []
+    }
+    @state = new_state if allowed_state_changes.include?(new_state)
+  end
+end
+
+# should I use extends string here?
+class String
+  def numeric?
+    self.to_i.to_s == self
   end
 end
