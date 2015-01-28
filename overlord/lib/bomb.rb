@@ -6,6 +6,8 @@ class Bomb
   attr_reader :state, :deactivation_attempts,
               :activation_code, :deactivation_code
 
+  attr_accessor :activation_code, :deactivation_code
+
   def initialize(options = {})
     @state = :disarmed
     @deactivation_attempts = 0
@@ -39,8 +41,8 @@ class Bomb
 
   private
 
-  private :activation_code
-  private :deactivation_code
+  # private :activation_code
+  # private :deactivation_code
   private :deactivation_attempts
 
   def detonate!
@@ -65,11 +67,12 @@ class Bomb
   end
 
   def change_state(new_state)
-    allowed_state_changes = {
+    allowed_state_changes =
+        {
         armed: [:detonated, :disarmed],
         disarmed: [:armed],
-        detonated: []
-    }
+        detonated: [],
+        }
     @state = new_state if allowed_state_changes.include?(new_state)
   end
 end
@@ -77,6 +80,6 @@ end
 # should I use extends string here?
 class String
   def numeric?
-    self.to_i.to_s == self
+    /^\d{4}$/ === self
   end
 end
