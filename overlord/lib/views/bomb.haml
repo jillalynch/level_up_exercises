@@ -1,15 +1,14 @@
 %html
   %head
-    %title ACME Bomb
+    %title Robopup Bomb
     %link{rel: :stylesheet, type: "text/css", href: "styles/bomb.css"}
   %body
     .bomb
       .bomb-panel
         .display
           .activation_status{data: {state: @bomb.state}}= @bomb.state.upcase
-          .timer &nbsp;
-          .message= @bomb.activation_code
-          .message= @bomb.deactivation_code
+          .message= "Activate: " + @bomb.activation_code
+          .message= "Disarm: " + @bomb.deactivation_code
 
         .input
           .code-display
@@ -29,6 +28,6 @@
               %button#btn-enter Enter
               %button#btn-backspace &lt;&lt;
         .clr
-%script{src: "/scripts/jquery-2.1.1.min.js" }
-%script{src: "/scripts/helpers.js" }
+%script{src: "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" }
 %script{src: "/scripts/bomb.js" }
+-#%script{src: "../../public/scripts/bomb.js" }

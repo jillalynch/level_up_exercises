@@ -8,11 +8,12 @@ class Bomb
 
   attr_accessor :activation_code, :deactivation_code
 
-  def initialize(options = {})
+  def initialize(activation_code = nil,
+                 deactivation_code = nil)
     @state = :disarmed
     @deactivation_attempts = 0
-    @deactivation_code = DEFAULT_DEACTIVATION_CODE
-    @activation_code = DEFAULT_ACTIVATION_CODE
+    @deactivation_code ||= DEFAULT_DEACTIVATION_CODE
+    @activation_code ||= DEFAULT_ACTIVATION_CODE
   end
 
   def armed?
@@ -33,10 +34,6 @@ class Bomb
     elsif armed?
       attempt_deactivation(code)
     end
-  end
-
-  def valid_code?(code)
-    code.numeric? && (code.length == 4)
   end
 
   private
@@ -68,18 +65,11 @@ class Bomb
 
   def change_state(new_state)
     allowed_state_changes =
-        {
+      {
         armed: [:detonated, :disarmed],
         disarmed: [:armed],
         detonated: [],
-        }
+      }
     @state = new_state if allowed_state_changes.include?(new_state)
-  end
-end
-
-# should I use extends string here?
-class String
-  def numeric?
-    /^\d{4}$/ === self
   end
 end

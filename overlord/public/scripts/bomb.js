@@ -1,10 +1,11 @@
+'use strict';
+
 var Bomb = Bomb || {};
 
 Bomb.init = function () {
     Bomb.init_code_display();
     Bomb.init_keyboard_input();
     Bomb.init_keypad();
-
     Bomb.get_state_from_server();
 };
 
@@ -16,7 +17,7 @@ Bomb.init_code_display = function () {
 
 Bomb.init_keyboard_input = function () {
     $(window).keydown(function (e) {
-        if (e.which == Key.enter) {
+        if (e.which === Key.enter) {
             $('#btn-enter').click();
             e.preventDefault();
         } else if (e.which == Key.backspace) {
@@ -38,14 +39,14 @@ Bomb.init_keypad = function () {
     Bomb.init_keypad_backspace();
     Bomb.init_keypad_enter();
     $('.keypad button[data-value]').click(function () {
-        number_pressed = $(this).data('value');
+        var number_pressed = $(this).data('value');
         Bomb.update_code_field(Bomb.get_code_field() + "" + number_pressed);
     });
 };
 
 Bomb.init_keypad_backspace = function () {
     $('#btn-backspace').click(function () {
-        value = Bomb.get_code_field();
+        var value = Bomb.get_code_field();
         if (value.length > 0) {
             Bomb.update_code_field(value.substr(0, value.length - 1));
         }
@@ -85,24 +86,20 @@ Bomb.get_state_from_server = function () {
 };
 
 Bomb.handle_server_response = function (result) {
-    Bomb.handle_error(result.error);
-    Bomb.update_message(result.message);
     Bomb.update_state(result.state);
 };
 
-
 Bomb.on_server_error = function (request, status_message, error) {
-    alert('Error connecting to server: ' + error);
+    window.alert('Error connecting to server: ' + error);
 };
 
-
 Bomb.submit_code = function () {
-    code = Bomb.get_code_field();
+    var _code = Bomb.get_code_field();
     Bomb.clear_code_field();
     $.ajax({
         type: "POST",
         url: "/code_entry",
-        data: {code: code},
+        data: {code: _code},
         dataType: "json",
         error: Bomb.on_server_error,
         success: Bomb.handle_server_response
@@ -118,18 +115,16 @@ Bomb.update_code_field = function (new_value) {
     $('input#code').change();
 };
 
-Bomb.update_message = function (message) {
-    $('.message').html(Bomb.format_message(message));
-};
 
 Bomb.update_state = function (state) {
     $('.activation_status').text(state.toUpperCase());
     $('.activation_status').attr('data-state', state);
-    if (state == "exploded") {
+    if (state === "exploded") {
         window.location.assign('/explosion');
     }
 };
 
+//an alias for $(document).ready() if you pass it a function
 $(function () {
     Bomb.init();
 });

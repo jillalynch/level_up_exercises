@@ -1,0 +1,1 @@
+require_relative('../../public/scripts/bomb.js')
