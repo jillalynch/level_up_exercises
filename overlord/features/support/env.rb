@@ -3,6 +3,7 @@ $LOAD_PATH << File.expand_path('../../../lib', __FILE__)
 require 'overlord'
 require 'rspec'
 require 'sinatra'
+require 'capybara'
 
 
 begin require "rspec/expectations"

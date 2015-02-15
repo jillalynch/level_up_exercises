@@ -1,6 +1,6 @@
 %html
   %head
-    %title Robopup Bomb
+    %title Cutie Bomb
     %link{rel: :stylesheet, type: "text/css", href: "styles/bomb.css"}
   %body
     .bomb
@@ -13,6 +13,8 @@
         .input
           .code-display
           %input#code{type: :hidden, maxlength: 4}
+            %input#code{type: :hidden, maxlength: 4}
+
           .keypad
             .keypad-row
               - (7..9).each do |n|
